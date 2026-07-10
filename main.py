@@ -26,17 +26,17 @@ CHAT_ID = os.getenv("ID")
 USER_PROFILE = os.getenv("USER_PROFILE_INFO")
 
 QUERIES = [
-    'site:instahyre.com ("Cyber Security" OR "Security Analyst" OR "VAPT") (Bangalore OR Remote)',
-    'site:cutshort.io ("Cyber Security" OR "Security Analyst") India',
-    'site:hirist.tech ("Cyber Security" OR "Security") India',
-    'site:naukri.com ("Cyber Security" OR "Security Analyst") Bangalore not:senior',
-    'site:foundit.in ("Cyber Security" OR "Security Analyst") Bangalore',
-    'site:linkedin.com/jobs/view ("Cyber Security" OR "Security Analyst") Bangalore',
-    'site:wellfound.com/jobs ("Cyber Security") India',
-    'site:hiring.cafe ("Security" OR "Cyber") "India"',
-    'site:weworkremotely.com ("Security") not:senior',
-    'site:greenhouse.io/embed/job ("Cyber Security") India',
-    'site:jobs.lever.co ("Security") India'
+    'site:instahyre.com ("Python Developer" OR "Python Backend" OR "Django") (Bangalore OR Remote)',
+    'site:cutshort.io ("Python Developer" OR "Python Engineer") India',
+    'site:hirist.tech ("Python Developer" OR "Python") India',
+    'site:naukri.com ("Python Developer" OR "Python Engineer") Bangalore not:senior',
+    'site:foundit.in ("Python Developer" OR "Python Engineer") Bangalore',
+    'site:linkedin.com/jobs/view ("Python Developer" OR "Python Engineer") Bangalore',
+    'site:wellfound.com/jobs ("Python Developer") India',
+    'site:hiring.cafe ("Python" OR "Django") "India"',
+    'site:weworkremotely.com ("Python") not:senior',
+    'site:greenhouse.io/embed/job ("Python Developer") India',
+    'site:jobs.lever.co ("Python") India'
 ]
 
 # ==========================================
@@ -108,7 +108,7 @@ async def fetch_jobicy_rss():
         import socket
         socket.setdefaulttimeout(15) # Prevents feedparser from hanging forever
         try:
-            feed = feedparser.parse("https://jobicy.com/?feed=job_feed&job_categories=security-engineer&job_types=remote")
+            feed = feedparser.parse("https://jobicy.com/?feed=job_feed&job_categories=software-engineering&job_types=remote")
             jobs = []
             for entry in feed.entries:
                 if any(x in entry.title.lower() for x in ["senior", "head", "lead"]): continue
@@ -128,9 +128,9 @@ Task: Filter these jobs based on the resume.
 Return ONLY JSON format strictly like this: {{"matches": [{{"index": 0, "match_percent": 85, "suitability": 90}}]}}
 Rules:
 1. STRICT REJECT: Search result pages or lists showing multiple jobs. It MUST be a single, specific job posting.
-2. STRICT REJECT: Non-cyber roles.
+2. STRICT REJECT: Non-python or non-software roles.
 3. STRICT REJECT: Senior/Manager/Head roles.
-4. ACCEPT ONLY: Analyst, Intern, or Fresher roles strictly in Cyber Security, VAPT, SOC, or InfoSec.
+4. ACCEPT ONLY: Intern, Trainee, or Fresher roles strictly in Python Development, Backend Engineering, or Software Engineering.
 'match_percent' = How well the job skills align with the resume (0-100).
 'suitability' = The chance they will hire a fresher/intern like this user (0-100).
 
